@@ -1,0 +1,46 @@
+{
+  "name": "streaming-bird",
+  "version": "0.1.0",
+  "description": "CLI wrapper for node scripts to work with pipes and streams.",
+  "main": "index.js",
+  "bin": {
+    "streaming-bird": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "meow": "^5.0.0",
+    "pumpify": "^2.0.0",
+    "ramda": "^0.26.1",
+    "split2": "^3.1.1",
+    "through2": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "homepage": "https://github.com/manishrc/streaming-bird#readme",
+  "keywords": [
+    "node",
+    "transform",
+    "streams",
+    "pipe",
+    "unix",
+    "cli",
+    "cmd",
+    "command-line",
+    "terminal",
+    "data",
+    "readline"
+  ],
+  "author": "Manish C <hi+os@manishrc.com> (https://manishrc.com/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manishrc/streaming-bird"
+  },
+  "license": "MIT"
+}
