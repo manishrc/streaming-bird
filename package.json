@@ -6,9 +6,6 @@
   "bin": {
     "streaming-bird": "index.js"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "meow": "^5.0.0",
     "pumpify": "^2.0.0",
