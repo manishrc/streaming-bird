@@ -14,7 +14,7 @@ const cli = meow(
 $ streaming-bird --help
 
   Usage
-    $ streaming-bird [-i <file>] [-o <file>] node_scripts ...
+    $ streaming-bird [-i <file>] [-o <file>] <nodejs-script> ...
 
   Options
     -i, --input       Read from a <file>
@@ -38,6 +38,7 @@ $ streaming-bird --help
 const composeTransform = fn =>
   through.obj(function(chunk, encoding, callback) {
     let result = fn(chunk);
+    
     if (typeof result == "object") {
       try {
         result = JSON.stringify(result);

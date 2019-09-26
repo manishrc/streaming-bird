@@ -12,7 +12,7 @@ $ npm install --global streaming-bird
 $ streaming-bird --help
 
   Usage
-    $ streaming-bird [-i <file>] [-o <file>] node_scripts ...
+    $ streaming-bird [-i <file>] [-o <file>] <nodejs-script> ...
 
   Options
     -i, --input       Read from a <file>
@@ -37,23 +37,34 @@ $ streaming-bird --help
 {"name": "Everett Shanahan"}
 ```
 
-### `example-transformer.jsonl`
+### `example-transformer-upcase.js`
 ```js
 module.exports = personJson => {
-  const {name} = JSON.parse(personJson);
-  return { name: name.toUpperCase(), length: name.length};
+  const { name } = JSON.parse(personJson);
+  return { name: name.toUpperCase() };
+};
+```
+
+### `example-transformer-length.js`
+```js
+module.exports = ({ name }) => {
+  return { name, length: name.length };
 };
 ```
 
 ### CLI
 ```
-$ cat example-input.jsonl | streaming-bird example-transformer.jsonl | sort > out.jsonl
+$ cat example-input.jsonl \
+| streaming-bird example-transformer-upcase.js example-transformer-length.js \
+| sort > out.jsonl
 ```
 
 Or
 
 ```
-$ streaming-bird example-transformer.jsonl -i example-input.jsonl -o out.jsonl
+$ streaming-bird example-transformer-upcase.js example-transformer-length.js \
+-i example-input.jsonl \
+-o out.jsonl
 ```
 
 ### `out.jsonl`
@@ -65,3 +76,10 @@ $ streaming-bird example-transformer.jsonl -i example-input.jsonl -o out.jsonl
 {"name":"NICKOLAS SWANIAWSKI","length":19}
 {"name":"PEARL FAY","length":9}
 ```
+
+**NOTE**   
+The scripts are piped left-to-right. The result of the first script is passed on as the input of the second without serializing.
+
+To work with serialized objects, parsing needs to happen only in the first script.
+
+The result of the last script is serealized.
