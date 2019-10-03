@@ -21,6 +21,7 @@ $ streaming-bird --help
     -o, --output      Write output to <file>
     -l, --lines       Line mode ON (DEFAULT)
     --no-lines        Disable line mode
+    --json            Parse JSON
   
   Examples
     $ streaming-bird -i huge-file.jsonl -o output.jsonl transformer-a.js
@@ -30,7 +31,8 @@ $ streaming-bird --help
     flags: {
       lines: { type: "boolean", alias: "l", default: true },
       input: { type: "string", alias: "i" },
-      output: { type: "string", alias: "o" }
+      output: { type: "string", alias: "o" },
+      json: { type: "boolean", alias: "j" }
     }
   }
 );
@@ -38,7 +40,7 @@ $ streaming-bird --help
 const composeTransform = fn =>
   through.obj(function(chunk, encoding, callback) {
     let result = fn(chunk);
-    
+
     if (typeof result == "object") {
       try {
         result = JSON.stringify(result);
@@ -55,6 +57,8 @@ const composeTransform = fn =>
   });
 
 const scripts = cli.input.map(rp => path.resolve(rp)).map(ap => require(ap));
+
+if (cli.flags.json) scripts.unshift(JSON.parse);
 
 const pipeline = [composeTransform(R.pipe(...scripts))];
 
