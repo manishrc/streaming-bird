@@ -61,14 +61,14 @@ module.exports = ({ name }) => {
 
 ```
 $ cat example-input.jsonl \
-| streaming-bird example-transformer-upcase.js example-transformer-length.js \
+| streaming-bird -j example-transformer-upcase.js example-transformer-length.js \
 | sort > out.jsonl
 ```
 
 Or
 
 ```
-$ streaming-bird example-transformer-upcase.js example-transformer-length.js \
+$ streaming-bird -j  example-transformer-upcase.js example-transformer-length.js \
 -i example-input.jsonl \
 -o out.jsonl
 ```
