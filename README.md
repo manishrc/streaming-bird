@@ -3,11 +3,13 @@
 CLI wrapper for node scripts to work with Unix pipes and streams.
 
 ## Install
+
 ```
 $ npm install --global streaming-bird
 ```
 
 ## Usage
+
 ```
 $ streaming-bird --help
 
@@ -19,7 +21,8 @@ $ streaming-bird --help
     -o, --output      Write output to <file>
     -l, --lines       Line mode ON (DEFAULT)
     --no-lines        Disable line mode
-  
+    --json            Parse JSON
+
   Examples
     $ streaming-bird -i huge-file.jsonl -o output.jsonl transformer-a.js
     $ cat huge-file.jsonl | streaming-bird transformer.js > output.jsonl
@@ -28,6 +31,7 @@ $ streaming-bird --help
 ## Examples
 
 ### `example-input.jsonl`
+
 ```json
 {"name": "Nickolas Swaniawski"}
 {"name": "Drake Bednar"}
@@ -38,14 +42,15 @@ $ streaming-bird --help
 ```
 
 ### `example-transformer-upcase.js`
+
 ```js
-module.exports = personJson => {
-  const { name } = JSON.parse(personJson);
+module.exports = ({ name }) => {
   return { name: name.toUpperCase() };
 };
 ```
 
 ### `example-transformer-length.js`
+
 ```js
 module.exports = ({ name }) => {
   return { name, length: name.length };
@@ -53,6 +58,7 @@ module.exports = ({ name }) => {
 ```
 
 ### CLI
+
 ```
 $ cat example-input.jsonl \
 | streaming-bird example-transformer-upcase.js example-transformer-length.js \
@@ -68,6 +74,7 @@ $ streaming-bird example-transformer-upcase.js example-transformer-length.js \
 ```
 
 ### `out.jsonl`
+
 ```json
 {"name":"ABBIE RUNTE","length":11}
 {"name":"DRAKE BEDNAR","length":12}
@@ -77,7 +84,7 @@ $ streaming-bird example-transformer-upcase.js example-transformer-length.js \
 {"name":"PEARL FAY","length":9}
 ```
 
-**NOTE**   
+**NOTE**  
 The scripts are piped left-to-right. The result of the first script is passed on as the input of the second without serializing.
 
 To work with serialized objects, parsing needs to happen only in the first script.
